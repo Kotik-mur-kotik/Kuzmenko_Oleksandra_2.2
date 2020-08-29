@@ -1,15 +1,14 @@
 ﻿using System;
 namespace laba2
 {
-    class Calculations:Screen
+    class Calculations :Screen
     {
         public double Value { get; set; }
-        public double Counting(double percent, double investment, double intAnswerTerm)
+        public void Counting(double percent, double investment, double term)
         {
-            Value = investment / intAnswerTerm;
-            percent = (percent * Value) / 100;
-            Value += percent;
-            return Value;
+            
+            percent = (percent * (investment / term)) / 100;
+            Value = investment / term + percent;
         }
     }
 }

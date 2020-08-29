@@ -1,8 +1,11 @@
 ﻿using System;
 namespace laba2
 {
-    public class Screen
+    class Screen : ICredit
+
     {
+        readonly Text text = new Text();
+        private bool Verity { get; set; }
         public string Answer { get; set; }
         public string Bank { get; set; }
         public double Term { get; set; }
@@ -13,10 +16,10 @@ namespace laba2
         {
             while (true)
             {
-                Console.Write("Do you want to take a loan? (Yes/No) ");
-                Answer = Console.ReadLine();
-                if (Answer == "Yes" ^ Answer == "No") { break; }
-                else { Console.WriteLine("Your answer is incorrect. Try again"); }
+                text.TakeLoan();
+                ReadAnswer();
+                if (YesNo()) { break; }
+                else { text.Mistake(); }
             }
         }
 
@@ -24,10 +27,10 @@ namespace laba2
         {
             while (true)
             {
-                Console.Write("Do you want to find or search a loan? (Search/Select) ");
-                Answer = Console.ReadLine();
-                if(Answer == "Search" ^ Answer == "Select") { break; }
-                else {Console.WriteLine("Your answer is incorrect. Try again");}
+                text.SecectOrSearchLoan();
+                ReadAnswer();
+                if (SecectSearch()) { break; }
+                else { text.Mistake(); }
             }
         }
 
@@ -35,65 +38,65 @@ namespace laba2
         {
             while (true)
             {
-                Console.Write("Search the banks:");
-                Bank = Console.ReadLine();
-                if (Bank == "Privat" ^ Bank == "Alfa" ^ Bank == "OTP") { break; }
-                else { Console.WriteLine("We do not have such a bank, please choose from these: Privat/Alfa/OTP"); }
+                text.SearchBank();
+                ReadBank();
+                if (PrivatAlfaOTP()) { break; }
+                else { text.Mistake(); }
             }
 
             while (true)
             {
-                Console.Write("Write a loan term (mounth): ");
-                Term = double.Parse(Console.ReadLine());
-                if(Term > 0) { break; }
-                else { Console.WriteLine("Your answer is incorrect. Try again"); }
+                text.SearchTerm();
+                ReadTerm();
+                if(TermAboveZero()) { break; }
+                else { text.Mistake(); }
             }
 
             while (true)
             {
-                Console.Write("Enter investment amount: ");
-                Investment = double.Parse(Console.ReadLine());
-                if (Investment > 0) { break; }
-                else { Console.WriteLine("Your answer is incorrect. Try again"); }
+                text.SearchInvestment();
+                ReadInvestment();
+                if (InvestmentAboveZero()) { break; }
+                else { text.Mistake(); }
             }
         }
-
+        
 
         public void Select()
         {
             while (true)
             {
-                Console.WriteLine("Select one of the banks:Privat   Alfa   OTP ");
-                Bank = Console.ReadLine();
-                if (Bank == "Privat" ^ Bank == "Alfa" ^ Bank == "OTP"){break;}
-                else {Console.WriteLine("Your answer is incorrect. Try again");}
+                text.SelectBank();
+                ReadBank();
+                if (PrivatAlfaOTP()) {break;}
+                else { text.Mistake(); }
             }
         
             while (true)
             {
-                Console.WriteLine("Choose one of the term:3   6   12 ");
-                Term = double.Parse(Console.ReadLine());
-                if (Term == 3 ^ Term == 6 ^ Term == 12) { break; }
-                else { Console.WriteLine("Your answer is incorrect. Try again"); }
+                text.SelectTerm();
+                ReadTerm();
+                if (TermVerity()) { break; }
+                else { text.Mistake(); }
             }
         
             while (true)
             {
-                Console.WriteLine("Select the desired investment amount:1000   2000   3000 ");
-                Investment = double.Parse(Console.ReadLine());
-                if (Investment == 1000 ^ Investment == 2000 ^ Investment == 3000) { break; }
-                else { Console.WriteLine("Your answer is incorrect. Try again"); }
+                text.SelectInvestment();
+                ReadInvestment();
+                if (InvestmentVerity()) { break; }
+                else { text.Mistake(); }
             }
         }
-
+        
         public void Increase()
         {
             while (true)
             {
-                Console.Write("Would you like to increase your credit limit? (Yes/No) ");
-                Answer = Console.ReadLine();
-                if (Answer == "Yes" ^ Answer == "No") { break; }
-                else { Console.WriteLine("Your answer is incorrect. Try again"); }
+                text.IncreaseCredit();
+                ReadAnswer();
+                if (YesNo()) { break; }
+                else { text.Mistake(); }
             }
         }
 
@@ -101,10 +104,10 @@ namespace laba2
         {
             while (true)
             {
-                Console.Write("Enter a new investment amount: ");
-                Investment = double.Parse(Console.ReadLine());
-                if (Investment > 0) { break; }
-                else { Console.WriteLine("Your answer is incorrect. Try again"); }
+                text.SearchInvestment();
+                ReadInvestment();
+                if (InvestmentAboveZero()) { break; }
+                else { text.Mistake(); }
             }
         }
 
@@ -112,11 +115,99 @@ namespace laba2
         {
             while (true)
             {
-                Console.Write("You want early repayment of the loan? (Yes/No) ");
-                Answer = Console.ReadLine();
-                if (Answer == "Yes" ^ Answer == "No") { break; }
-                else { Console.WriteLine("Your answer is incorrect. Try again"); }
+                text.Repayment();
+                ReadAnswer();
+                if (YesNo()) { break; }
+                else { text.Mistake(); }
             }
+        }
+
+        private bool YesNo()
+        {
+            Verity = (Answer == "Yes" ^ Answer == "No");
+            return Verity;
+        }
+
+        private bool SecectSearch()
+        {
+            Verity = (Answer == "Search" ^ Answer == "Select");
+            return Verity;
+        }
+
+        protected bool PrivatAlfaOTP()
+        {
+            Verity = (Bank == "Privat" ^ Bank == "Alfa" ^ Bank == "OTP");
+            return Verity;
+        }
+
+        private bool TermAboveZero()
+        {
+            Verity = (Term > 0);
+            return Verity;
+        }
+
+        private bool InvestmentAboveZero()
+        {
+            Verity = (Investment > 0);
+            return Verity;
+        }
+
+        protected bool TermVerity()
+        {
+            Verity = (Term == 3 ^ Term == 6 ^ Term == 12);
+            return Verity;
+        }
+
+        protected bool InvestmentVerity()
+        {
+            Verity = (Investment == 1000 ^ Investment == 2000 ^ Investment == 3000);
+            return Verity;
+        }
+
+        public bool No()
+        {
+            Verity = (Answer == "No");
+            return Verity;
+        }
+
+        public bool Yes()
+        {
+            Verity = (Answer == "Yes");
+            return Verity;
+        }
+
+        public bool SelectVerity()
+        {
+            Verity = (Answer == "Select");
+            return Verity;
+        }
+
+        public double PercentVerity()
+        {
+            Percent = (Answer == "Privat") ? Percent : 7;
+            Percent = (Answer == "Alfa") ? Percent : 2.25;
+            Percent = (Answer == "OTP") ? Percent : 5.01;
+            return Percent;
+        }
+
+        public void ReadAnswer()
+        {
+            Answer = Console.ReadLine();
+        }
+
+        public void ReadBank()
+        {
+            Bank = Console.ReadLine();
+        }
+
+        public void ReadTerm()
+        {
+            Term = double.Parse(Console.ReadLine());
+        }
+
+        public void ReadInvestment()
+        {
+            Investment = double.Parse(Console.ReadLine());
         }
     }
 }

@@ -8,26 +8,26 @@ namespace laba2
         public static void Main(string[] args)
         {
             Calculations calculations = new Calculations();
+            Text text = new Text();
             Screen screen = new Screen();
+            Screen limit = new Calculations();
             screen.WantYesOrNo();
-            if (screen.Answer == "No") { Console.WriteLine("Thank you bye"); return; }
+            if (screen.No()){ text.Bye(); return; }
             screen.SecectOrSearch();
-            if (screen.Answer == "Select") { screen.Select(); }
+            if (screen.SelectVerity()) { screen.Select(); }
             else { screen.Search(); }
-            if (screen.Bank == "Privat") { screen.Percent = 7; }
-            else if (screen.Bank == "Alfa") { screen.Percent = 5.01; }
-            else { screen.Percent = 2.25; }
+            screen.PercentVerity();
             calculations.Counting(screen.Percent, screen.Investment, screen.Term);
             Console.WriteLine($"Your monthly payment: {calculations.Value}");
             screen.Increase();
-            if (screen.Answer == "Yes")
+            if (screen.Yes())
             {
-                screen.IncreaseLimit();
-                calculations.Counting(screen.Percent, screen.Investment, screen.Term);
+                limit.IncreaseLimit();
+                calculations.Counting(screen.Percent, limit.Investment, screen.Term);
                 Console.WriteLine($"Your monthly payment: {calculations.Value}");
             }
             screen.RepaymentOfLoan();
-            if (screen.Answer == "Yes") { Console.WriteLine("Congratulations, you repaid the loan!"); return; }
+            if (screen.Yes()) { text.Congratulations(); return; }
             
         }
         
